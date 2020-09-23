@@ -1,6 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask
 import flask_monitoringdashboard as dashboard
-import gunicorn
 
 app = Flask(__name__)
 dashboard.bind(app)
