@@ -1,1 +1,1 @@
-web: gunicorn -k gevent -w 10 --worker-connections 1000 -b localhost:8080 --log-file gunicorn.log --log-level debug wsgi directory=/data/flask-app
+web: gunicorn -k gevent -w 10 --worker-connections 1000 --log-file gunicorn.log --log-level debug wsgi directory=/data/flask-app
