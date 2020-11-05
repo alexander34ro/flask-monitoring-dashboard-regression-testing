@@ -1,5 +1,4 @@
-# flask-monitoring-dashboard-gunicorn
-
-Test app for Issue 296: https://github.com/flask-dashboard/Flask-MonitoringDashboard/issues/296
+# Flask Monitoring Dashboard - Regression Testing
 
 Basic Flask + gunicorn setup with Flask Monitoring Dashboard
+Used to mine performance data and simulate regressions
