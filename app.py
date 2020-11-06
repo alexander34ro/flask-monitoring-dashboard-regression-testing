@@ -7,6 +7,7 @@ app = Flask(__name__)
 dashboard.bind(app)
 
 DB_Name = 'flask_monitoringdashboard.db'
+Regression_Level = int(os.environ.get('REGRESSION_LEVEL', 0))
 
 # Mining CPU Data
 def CPU():
@@ -26,7 +27,7 @@ def Fibonacci(n):
     else: return Fibonacci(n - 1) + Fibonacci(n - 2)
 
 def CPU_Heavy_Regression():
-    print(Fibonacci(28))
+    print(Fibonacci(20))
 
 # CPU Light Regression
 def CPU_Light_Regression():
@@ -35,8 +36,18 @@ def CPU_Light_Regression():
 ### Main
 @app.route('/')
 def Main():
-    CPU_Heavy_Regression()
-    return 'Executed main body.'
+    db = sqlite3.connect(DB_Name)
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM CustomGraphData')
+    resultset = cursor.fetchall()
+
+    if (Regression_Level == 1 or Regression_Level == 3):
+        CPU_Light_Regression()
+    if (Regression_Level == 2 or Regression_Level == 3):
+        CPU_Heavy_Regression()
+
+    db.close()
+    return 'Executed main body. Number of records: ' + str(len(resultset))
 
 ### Refresh DB
 @app.route('/get_db')
