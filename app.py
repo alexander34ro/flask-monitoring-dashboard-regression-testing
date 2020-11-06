@@ -53,8 +53,7 @@ def Download_File():
         stream_and_remove_file(),
         headers = {
             'Content-Disposition': 'attachment',
-            'filename': 'db_copy.db',
-            'mimetype': 'db'
+            'filename': 'db'
         }
     )
 

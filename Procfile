@@ -1,1 +1,1 @@
-web: gunicorn -k gevent -w 2 --worker-connections 500 wsgi:app
+web: gunicorn -k gevent -w 4 --worker-connections 500 --log-file gunicorn.log --log-level debug wsgi:app
