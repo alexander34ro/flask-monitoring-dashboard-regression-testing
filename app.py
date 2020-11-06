@@ -2,6 +2,10 @@ from flask import Flask, send_from_directory, current_app
 import flask_monitoringdashboard as dashboard
 import time, datetime, os, psutil
 
+# Remove Database
+DB_Name = "flask_monitoringdashboard.db"
+os.remove(DB_Name)
+
 ### FMD Setup
 app = Flask(__name__)
 dashboard.bind(app)
@@ -39,13 +43,13 @@ def Main():
     return "Executed main body."
 
 ### Refresh DB
-def Download_File(filename):
-    file_handle = open(filename, 'rb')
+def Download_File():
+    file_handle = open(DB_Name, 'rb')
 
     def stream_and_remove_file():
         yield from file_handle
         file_handle.close()
-        os.remove(filename)
+        os.remove(DB_Name)
 
     return current_app.response_class(
         stream_and_remove_file(),
@@ -58,8 +62,7 @@ def Download_File(filename):
 
 @app.route('/db')
 def Download_DB():
-    filename = "flask_monitoringdashboard.db"
-    return Download_File(filename)
+    return Download_File()
 
 if __name__ == '__main__':
     app.run()
