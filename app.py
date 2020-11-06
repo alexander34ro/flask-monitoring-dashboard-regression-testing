@@ -2,10 +2,6 @@ from flask import Flask, send_from_directory, current_app
 import flask_monitoringdashboard as dashboard
 import time, datetime, os, psutil
 
-# Remove Database
-DB_Name = "flask_monitoringdashboard.db"
-os.remove(DB_Name)
-
 ### FMD Setup
 app = Flask(__name__)
 dashboard.bind(app)
@@ -65,4 +61,7 @@ def Download_DB():
     return Download_File()
 
 if __name__ == '__main__':
+    # Remove Database
+    DB_Name = "flask_monitoringdashboard.db"
+    os.remove(DB_Name)
     app.run()
