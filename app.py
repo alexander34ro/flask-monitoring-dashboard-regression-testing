@@ -1,12 +1,12 @@
-from flask import Flask, send_from_directory, current_app
+from flask import Flask, send_from_directory
 import flask_monitoringdashboard as dashboard
-import time, datetime, os, psutil
+import sqlite3, time, datetime, os, psutil
 
 ### FMD Setup
 app = Flask(__name__)
 dashboard.bind(app)
 
-DB_Name = "flask_monitoringdashboard.db"
+DB_Name = 'flask_monitoringdashboard.db'
 
 # Mining CPU Data
 def CPU():
@@ -16,9 +16,7 @@ def CPU():
 
 
 every_second_schedule = {'seconds': 10}
-
-dashboard.add_graph("CPU Usage", CPU,
-                    "interval", **every_second_schedule)
+dashboard.add_graph('CPU Usage', CPU, 'interval', **every_second_schedule)
 
 ### Regressions
 # CPU Heavy Regression
@@ -38,28 +36,21 @@ def CPU_Light_Regression():
 @app.route('/')
 def Main():
     CPU_Heavy_Regression()
-    return "Executed main body."
+    return 'Executed main body.'
 
 ### Refresh DB
-def Download_File():
-    file_handle = open(DB_Name, 'rb')
-
-    def stream_and_remove_file():
-        yield from file_handle
-        file_handle.close()
-        os.remove(DB_Name)
-
-    return current_app.response_class(
-        stream_and_remove_file(),
-        headers = {
-            'Content-Disposition': 'attachment',
-            'filename': 'db'
-        }
-    )
-
-@app.route('/db')
+@app.route('/get_db')
 def Download_DB():
-    return Download_File()
+    return send_from_directory(directory='', filename=DB_Name, as_attachment=True)
+
+@app.route('/clear_db')
+def Clear_DB():
+    db = sqlite3.connect(DB_Name)
+    cursor = db.cursor()
+    cursor.execute('DELETE FROM CustomGraphData')
+    db.commit()
+    db.close()
+    return 'Custom Graph Data cleared.'
 
 if __name__ == '__main__':
     app.run()
