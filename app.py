@@ -27,11 +27,18 @@ def Fibonacci(n):
     else: return Fibonacci(n - 1) + Fibonacci(n - 2)
 
 def CPU_Heavy_Regression():
-    print(Fibonacci(20))
+    Fibonacci(20)
 
 # CPU Light Regression
 def CPU_Light_Regression():
     time.sleep(1)
+
+
+@app.route('/set_regression_level/<level>')
+def Set_Regression_Level(level=0):
+    global Regression_Level
+    Regression_Level = int(level)
+    return 'Regression_Level set to ' + str(Regression_Level) + '.\n'
 
 ### Main
 @app.route('/')
@@ -47,7 +54,11 @@ def Main():
         CPU_Heavy_Regression()
 
     db.close()
-    return 'Executed main body. Number of records: ' + str(len(resultset))
+    text  = 'Main\n'
+    text += 'Executed main body.\n'
+    text += 'Number of records: ' + str(len(resultset)) + '.\n'
+    text += 'Regression Level: ' + str(Regression_Level) + '.\n'
+    return text
 
 ### Refresh DB
 @app.route('/get_db')
