@@ -33,6 +33,12 @@ def CPU_Heavy_Regression():
 def CPU_Light_Regression():
     time.sleep(1)
 
+# Main Regression
+def Regression():
+    if (Regression_Level == 1 or Regression_Level == 3):
+        CPU_Light_Regression()
+    if (Regression_Level == 2 or Regression_Level == 3):
+        CPU_Heavy_Regression()
 
 @app.route('/set_regression_level/<level>')
 def Set_Regression_Level(level=0):
@@ -48,10 +54,7 @@ def Main():
     cursor.execute('SELECT * FROM CustomGraphData')
     resultset = cursor.fetchall()
 
-    if (Regression_Level == 1 or Regression_Level == 3):
-        CPU_Light_Regression()
-    if (Regression_Level == 2 or Regression_Level == 3):
-        CPU_Heavy_Regression()
+    Regression()
 
     db.close()
     text  = 'Main\n'
