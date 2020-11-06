@@ -62,6 +62,6 @@ def Download_DB():
 
 if __name__ == '__main__':
     # Remove Database
-    DB_Name = "flask_monitoringdashboard.db"
-    os.remove(DB_Name)
+    # DB_Name = "flask_monitoringdashboard.db"
+    # os.remove(DB_Name)
     app.run()
