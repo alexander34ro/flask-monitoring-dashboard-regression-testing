@@ -6,6 +6,8 @@ import time, datetime, os, psutil
 app = Flask(__name__)
 dashboard.bind(app)
 
+DB_Name = "flask_monitoringdashboard.db"
+
 # Mining CPU Data
 def CPU():
     cpu = psutil.cpu_percent()
@@ -61,7 +63,5 @@ def Download_DB():
     return Download_File()
 
 if __name__ == '__main__':
-    # Remove Database
-    # DB_Name = "flask_monitoringdashboard.db"
-    # os.remove(DB_Name)
+    os.remove(DB_Name)
     app.run()
