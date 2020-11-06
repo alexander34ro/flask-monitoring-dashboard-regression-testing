@@ -63,5 +63,5 @@ def Download_DB():
     return Download_File()
 
 if __name__ == '__main__':
-    os.remove(DB_Name)
     app.run()
+    os.remove(DB_Name)
