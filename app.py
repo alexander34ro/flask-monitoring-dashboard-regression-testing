@@ -35,9 +35,14 @@ def CPU_Light_Regression():
 
 # Main Regression
 def Regression():
-    if (Regression_Level == 1 or Regression_Level == 3):
+    if (Regression_Level == 0):
+        pass
+    if (Regression_Level == 1):
         CPU_Light_Regression()
-    if (Regression_Level == 2 or Regression_Level == 3):
+    if (Regression_Level == 2):
+        CPU_Heavy_Regression()
+    if (Regression_Level == 3):
+        CPU_Light_Regression()
         CPU_Heavy_Regression()
 
 @app.route('/set_regression_level/<level>')
