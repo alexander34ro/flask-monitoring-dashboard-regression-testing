@@ -26,7 +26,7 @@ def Fibonacci(n):
     else: return Fibonacci(n - 1) + Fibonacci(n - 2)
 
 def CPU_Heavy_Regression():
-    print(Fibonacci(25))
+    print(Fibonacci(28))
 
 # CPU Light Regression
 def CPU_Light_Regression():
