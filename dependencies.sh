@@ -1,7 +1,3 @@
-# Get Repo
-git clone https://github.com/alexander34ro/flask-monitoring-dashboard-regression-testing.git
-cd flask-monitoring-dashboard-regression-testing/
-
 # Get pip3
 sudo apt-get update
 sudo apt-get install python3-pip
