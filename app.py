@@ -31,7 +31,7 @@ def CPU_Heavy_Regression():
 
 # CPU Light Regression
 def CPU_Light_Regression():
-    time.sleep(1)
+    time.sleep(0.1)
 
 # Main Regression
 def Regression():
