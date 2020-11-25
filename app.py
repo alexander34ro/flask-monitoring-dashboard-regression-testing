@@ -27,7 +27,7 @@ def Fibonacci(n):
     else: return Fibonacci(n - 1) + Fibonacci(n - 2)
 
 def CPU_Heavy_Regression():
-    Fibonacci(20)
+    Fibonacci(25)
 
 # CPU Light Regression
 def CPU_Light_Regression():
@@ -58,6 +58,8 @@ def Main():
     cursor = db.cursor()
     cursor.execute('SELECT * FROM CustomGraphData')
     resultset = cursor.fetchall()
+
+    Fibonacci(40)
 
     Regression()
 
