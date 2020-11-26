@@ -16,7 +16,7 @@ def CPU():
     return cpu
 
 
-every_second_schedule = {'seconds': 2}
+every_second_schedule = {'seconds': 10}
 dashboard.add_graph('CPU Usage', CPU, 'interval', **every_second_schedule)
 
 ### Regressions
