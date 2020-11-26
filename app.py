@@ -59,7 +59,7 @@ def Main():
     cursor.execute('SELECT * FROM CustomGraphData')
     resultset = cursor.fetchall()
 
-    Fibonacci(35)
+    Fibonacci(30)
 
     Regression()
 
