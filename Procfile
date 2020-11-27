@@ -1,1 +1,1 @@
-web: gunicorn wsgi:app --max-requests 2000 --timeout 100
+web: gunicorn wsgi:app -w 1 --max-requests 2000 --timeout 100
