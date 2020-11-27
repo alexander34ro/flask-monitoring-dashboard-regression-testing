@@ -81,6 +81,8 @@ def Clear_DB():
     cursor = db.cursor()
     cursor.execute('DELETE FROM CustomGraphData')
     db.commit()
+    cursor.execute('DELETE FROM Request')
+    db.commit()
     db.close()
     return 'Custom Graph Data cleared.'
 
