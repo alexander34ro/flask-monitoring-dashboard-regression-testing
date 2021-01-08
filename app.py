@@ -31,7 +31,7 @@ def CPU_Heavy_Regression():
     if Regression_Magnitude == 1: Fibonacci(26)
     elif Regression_Magnitude == 2: Fibonacci(28)
     elif Regression_Magnitude == 3: Fibonacci(30)
-    elif Regression_Magnitude == 4: Fibonacci(32)
+    elif Regression_Magnitude == 4: Fibonacci(31)
 
 # CPU Light Regression
 def CPU_Light_Regression():
@@ -69,7 +69,7 @@ def Main():
     cursor.execute('SELECT * FROM CustomGraphData')
     resultset = cursor.fetchall()
 
-    Fibonacci(30)
+    Fibonacci(28)
 
     Regression()
 
