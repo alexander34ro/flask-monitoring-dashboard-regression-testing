@@ -1,6 +1,6 @@
 from flask import Flask, send_from_directory
 import flask_monitoringdashboard as dashboard
-import sqlite3, time, datetime, os, psutil
+import sqlite3, time, datetime, os, psutil, random
 
 ### FMD Setup
 app = Flask(__name__)
@@ -73,10 +73,14 @@ def Main():
 
     Regression()
 
+    r, g, b = random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)
+    rgb = str(r) + str(g) + str(b)
+
     db.close()
     text  = '<h1>Main</h1>'
     text += '<p>Executed main body.</p>'
-    text += '<code style="background-color: #eee;padding: 5px 20px;display: block;border-radius: 10px;">'
+    text += '<div style="background-color: #' + rgb + ';padding: 4px"></div>'
+    text += '<code style="background-color: #ddd;padding: 5px 20px;display: block;border-radius: 0 0 10px 10px;">'
     text += '<p>Number of records: ' + str(len(resultset)) + '</p>'
     text += '<p>Regression Level: ' + str(Regression_Level) + '</p>'
     text += '<p>Regression Magnitude: ' + str(Regression_Magnitude) + '</p>'
