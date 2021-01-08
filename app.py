@@ -8,6 +8,7 @@ dashboard.bind(app)
 
 DB_Name = 'flask_monitoringdashboard.db'
 Regression_Level = int(os.environ.get('REGRESSION_LEVEL', 0))
+Regression_Magnitude = int(os.environ.get('REGRESSION_MAGNITUDE', 1))
 
 # Mining CPU Data
 def CPU():
@@ -27,7 +28,10 @@ def Fibonacci(n):
     else: return Fibonacci(n - 1) + Fibonacci(n - 2)
 
 def CPU_Heavy_Regression():
-    Fibonacci(20)
+    if Regression_Magnitude == 1: Fibonacci(20)
+    elif Regression_Magnitude == 2: Fibonacci(25)
+    elif Regression_Magnitude == 3: Fibonacci(30)
+    elif Regression_Magnitude == 4: Fibonacci(35)
 
 # CPU Light Regression
 def CPU_Light_Regression():
@@ -51,6 +55,12 @@ def Set_Regression_Level(level=0):
     Regression_Level = int(level)
     return 'Regression_Level set to ' + str(Regression_Level) + '.\n'
 
+@app.route('/set_regression_magnitude/<level>')
+def Set_Regression_Magnitude(level=0):
+    global Regression_Magnitude
+    Regression_Magnitude = int(level)
+    return 'Regression_Magnitude set to ' + str(Regression_Magnitude) + '.\n'
+
 ### Main
 @app.route('/')
 def Main():
@@ -64,10 +74,13 @@ def Main():
     Regression()
 
     db.close()
-    text  = 'Main\n'
-    text += 'Executed main body.\n'
-    text += 'Number of records: ' + str(len(resultset)) + '.\n'
-    text += 'Regression Level: ' + str(Regression_Level) + '.\n'
+    text  = '<h1>Main</h1>'
+    text += '<p>Executed main body.</p>'
+    text += '<code style="background-color: #eee;padding: 5px 20px;display: block;border-radius: 10px;">'
+    text += '<p>Number of records: ' + str(len(resultset)) + '</p>'
+    text += '<p>Regression Level: ' + str(Regression_Level) + '</p>'
+    text += '<p>Regression Magnitude: ' + str(Regression_Magnitude) + '</p>'
+    text += '</code>'
     return text
 
 ### Refresh DB
