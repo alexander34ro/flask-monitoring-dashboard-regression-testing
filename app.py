@@ -61,7 +61,17 @@ def Regression():
 def before_request():
     g.request_start_time = time.time()
     g.request_time = lambda: "%.5fs" % (time.time() - g.request_start_time)
+    g.request_end_time = None
+    g.request_time_2 = None
 
+@app.teardown_request
+def teardown_request(exc):
+    g.request_end_time = time.time()
+    g.request_time_2 = "%.5fs" % (g.request_end_time - g.request_start_time)
+    request_latency = float(g.request_time_2[:-1])
+    cpu_usage = psutil.cpu_percent(interval=request_latency, percpu=False)
+    print(cpu_usage)
+    print(g.request_time_2)
 
 @app.route('/set_regression_level/<level>')
 def Set_Regression_Level(level=0):
@@ -98,6 +108,8 @@ def Main():
 
     text  = '<h1>Main</h1>'
     text += '<p>Executed main body in ' + str(request_latency) + '</p>'
+    text += '<p>Executed main body in ' + str(g.request_time_2) + '</p>'
+    text += '<p>Executed main body in ' + str(g.request_end_time) + '</p>'
     text += '<p>CPU usage: ' + str(cpu_usage) + '%</p>'
     text += '<p>FMD CPU usage: ' + str(last_cpu_read) + '%</p>'
     text += '<div style="background-color: #' + rgb + ';padding: 4px"></div>'
