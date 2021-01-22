@@ -1,6 +1,7 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, request, g, jsonify
 import flask_monitoringdashboard as dashboard
 import sqlite3, time, datetime, os, psutil, random
+import json
 
 ### FMD Setup
 app = Flask(__name__)
@@ -9,10 +10,11 @@ dashboard.bind(app)
 DB_Name = 'flask_monitoringdashboard.db'
 Regression_Level = int(os.environ.get('REGRESSION_LEVEL', 0))
 Regression_Magnitude = int(os.environ.get('REGRESSION_MAGNITUDE', 1))
+data = []
 
 # Mining CPU Data
 def CPU():
-    cpu = psutil.cpu_percent()
+    cpu = psutil.cpu_percent(interval=None, percpu=False)
     print(f"{datetime.datetime.now()} | CPU: {cpu}")
     return cpu
 
@@ -49,6 +51,13 @@ def Regression():
         CPU_Light_Regression()
         CPU_Heavy_Regression()
 
+
+@app.before_request
+def before_request():
+    g.request_start_time = time.time()
+    g.request_time = lambda: "%.5fs" % (time.time() - g.request_start_time)
+
+
 @app.route('/set_regression_level/<level>')
 def Set_Regression_Level(level=0):
     global Regression_Level
@@ -73,12 +82,18 @@ def Main():
 
     Regression()
 
-    r, g, b = random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)
-    rgb = str(r) + str(g) + str(b)
+    r, gr, b = random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)
+    rgb = str(r) + str(gr) + str(b)
 
     db.close()
+
+    request_latency = float(g.request_time()[:-1])
+    cpu_usage = psutil.cpu_percent(interval=request_latency, percpu=False)
+    data.append({"request_latency": request_latency, "cpu_usage": cpu_usage})
+
     text  = '<h1>Main</h1>'
-    text += '<p>Executed main body.</p>'
+    text += '<p>Executed main body in ' + str(request_latency) + '</p>'
+    text += '<p>CPU usage: ' + str(cpu_usage) + '%</p>'
     text += '<div style="background-color: #' + rgb + ';padding: 4px"></div>'
     text += '<code style="background-color: #ddd;padding: 5px 20px;display: block;border-radius: 0 0 10px 10px;">'
     text += '<p>Number of records: ' + str(len(resultset)) + '</p>'
@@ -92,6 +107,11 @@ def Main():
 def Download_DB():
     return send_from_directory(directory='', filename=DB_Name, as_attachment=True)
 
+### Refresh DB
+@app.route('/get_json')
+def Download_JSON():
+    return jsonify(data)
+
 @app.route('/clear_db')
 def Clear_DB():
     db = sqlite3.connect(DB_Name)
@@ -101,6 +121,9 @@ def Clear_DB():
     cursor.execute('DELETE FROM Request')
     db.commit()
     db.close()
+
+    data = []
+
     return 'Custom Graph Data cleared.'
 
 if __name__ == '__main__':
