@@ -11,11 +11,13 @@ DB_Name = 'flask_monitoringdashboard.db'
 Regression_Level = int(os.environ.get('REGRESSION_LEVEL', 0))
 Regression_Magnitude = int(os.environ.get('REGRESSION_MAGNITUDE', 1))
 data = []
+last_cpu_read = 0
 
 # Mining CPU Data
 def CPU():
     cpu = psutil.cpu_percent(interval=None, percpu=False)
     print(f"{datetime.datetime.now()} | CPU: {cpu}")
+    last_cpu_read = cpu
     return cpu
 
 
@@ -94,6 +96,7 @@ def Main():
     text  = '<h1>Main</h1>'
     text += '<p>Executed main body in ' + str(request_latency) + '</p>'
     text += '<p>CPU usage: ' + str(cpu_usage) + '%</p>'
+    text += '<p>FMD CPU usage: ' + str(last_cpu_read) + '%</p>'
     text += '<div style="background-color: #' + rgb + ';padding: 4px"></div>'
     text += '<code style="background-color: #ddd;padding: 5px 20px;display: block;border-radius: 0 0 10px 10px;">'
     text += '<p>Number of records: ' + str(len(resultset)) + '</p>'
