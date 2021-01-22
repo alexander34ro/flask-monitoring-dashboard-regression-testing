@@ -93,7 +93,7 @@ def Main():
     db.close()
 
     request_latency = float(g.request_time()[:-1])
-    cpu_usage = psutil.cpu_percent(interval=0.1, percpu=False)
+    cpu_usage = psutil.cpu_percent(interval=request_latency, percpu=False)
     data.append({"request_latency": request_latency, "cpu_usage": cpu_usage})
 
     text  = '<h1>Main</h1>'
