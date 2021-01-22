@@ -11,13 +11,16 @@ DB_Name = 'flask_monitoringdashboard.db'
 Regression_Level = int(os.environ.get('REGRESSION_LEVEL', 0))
 Regression_Magnitude = int(os.environ.get('REGRESSION_MAGNITUDE', 1))
 data = []
-last_cpu_read = 0
+last_cpu_read = 0.0
 
 # Mining CPU Data
 def CPU():
     cpu = psutil.cpu_percent(interval=None, percpu=False)
     print(f"{datetime.datetime.now()} | CPU: {cpu}")
+    
+    global last_cpu_read
     last_cpu_read = cpu
+    
     return cpu
 
 
