@@ -70,8 +70,8 @@ def teardown_request(exc):
     g.request_time_2 = "%.5fs" % (g.request_end_time - g.request_start_time)
     request_latency = float(g.request_time_2[:-1])
     cpu_usage = psutil.cpu_percent(interval=request_latency, percpu=False)
-    print(cpu_usage)
-    print(g.request_time_2)
+    print('CPU Usage measured at teardown: ' + str(cpu_usage))
+    print('Request time measured at teardown: ' + str(g.request_time_2))
 
 @app.route('/set_regression_level/<level>')
 def Set_Regression_Level(level=0):
