@@ -5,6 +5,7 @@ import json
 
 ### FMD Setup
 app = Flask(__name__)
+dashboard.config.init_from(file='config.cfg')
 dashboard.bind(app)
 
 DB_Name = 'flask_monitoringdashboard.db'
