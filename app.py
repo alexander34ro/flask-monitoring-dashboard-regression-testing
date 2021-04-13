@@ -47,6 +47,8 @@ def CPU_Light_Regression():
 
 # Main Regression
 def Regression():
+    time.sleep(0.1)
+    time.sleep(0.1)
     if (Regression_Level == 0):
         pass
     if (Regression_Level == 1):
